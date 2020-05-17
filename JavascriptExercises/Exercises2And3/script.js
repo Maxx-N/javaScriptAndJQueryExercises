@@ -15,6 +15,8 @@ function executeAfterLoading() {
 
     createMagicDiv();
     newDivOnFormSubmit(myForm);
+
+    forceUpperCaseWhenEnteringText();
 };
 
 //Créez un formulaire HTML
@@ -122,6 +124,19 @@ function newDivOnFormSubmit(form) {
 
         let myDiv = document.createElement("div");
 
+        let goodChoice = document.getElementById("good_user");
+        let badChoice = document.getElementById("bad_user");
+
+        if (goodChoice.checked && badChoice.checked) {
+            orangeBackground(myDiv);
+        }
+        else if (goodChoice.checked) {
+            greenBackground(myDiv);
+        }
+        else if (badChoice.checked) {
+            redBackground(myDiv);
+        }
+
         let myTitle = document.createElement("h2");
         let myNameInput = document.getElementsByTagName("input")[0].value;
         myTitle.innerText = myNameInput;
@@ -155,7 +170,6 @@ function CreateAButtonToDeleteDiv(div) {
     let deleteDiv = (e) => {
         e.preventDefault();
         animationOnDivDeletion(div);
-        div.remove();
     }
 
     myButton.addEventListener("click", deleteDiv);
@@ -173,25 +187,43 @@ function animationOnDivCreation(div) {
 
         currentWidth = currentWidth + 1;
         div.style.width = currentWidth + '%';
-    }, 50);
-
+    }, 20);
 }
 
 function animationOnDivDeletion(div) {
-    let currentWidth = 100, finalWidth = 0;
-    let interval = setInterval(function () {
-        if (currentWidth === finalWidth) {
-            clearInterval(interval);
-            return;
-        }
-
-        currentWidth = currentWidth - 1;
-        div.style.width = currentWidth + '%';
-    }, 50);
+    div.animate([
+        { width: '100%', opacity: '1'},
+        { width: '0%', opacity: '0.5'}
+    ], {
+        duration: 1000
+    });
+    setTimeout(function () {
+        div.remove();
+    }, 1000);
 }
 
 //o Le paragraphe aura un fond vert si la checkbox est cochée
 
+//Voir création de la div qui appelle cette fonction si la checkbox est cochée
+function greenBackground(myDiv) {
+    myDiv.setAttribute('style', 'background-color: #55FF55');
+}
+
+function redBackground(myDiv) {
+    myDiv.setAttribute('style', 'background-color: #FF0000');
+}
+
+function orangeBackground(myDiv) {
+    myDiv.setAttribute('style', 'background-color: orange');
+}
+
 //o Lors de l’écriture dans la textbox, forcer l’écriture en majuscule
 
+function forceUpperCaseWhenEnteringText() {
+    document.getElementById('user_name').addEventListener('keyup', forceUpperCase);
 
+    function forceUpperCase(e) {
+        e.preventDefault();
+        this.value = this.value.toUpperCase();
+    }
+}
