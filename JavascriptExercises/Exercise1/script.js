@@ -25,9 +25,19 @@ function changeSpan3WhenClickingOnButton() {
         element.innerText = newText;
     }
 
-    let changeSpan3InnerText = () => {
+    let changeSpan3InnerText = (e) => {
+        e.preventDefault();
+
         let span3 = selectSpan3();
-        changeInnerText(span3, "NOUVEAU SPAN 3");
+
+        switch (span3.innerText) {
+            case "span3":
+                changeInnerText(span3, "NOUVEAU SPAN 3");
+                break;
+            default:
+                changeInnerText(span3, "span3");
+                break;
+        }  
     }
 
     let selectLastButton = () => {
@@ -43,7 +53,7 @@ function changeSpan3WhenClickingOnButton() {
     buttonEventListener();
 }
 
-//Afficher les tables de multiplications dans une table généré en JS
+//Afficher les tables de multiplications dans une table générée en JS
 
 function displayMultiplicationTable() {
     let myTable = document.createElement("table");

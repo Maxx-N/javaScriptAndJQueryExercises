@@ -24,7 +24,15 @@ function modifySecondSpanOnClick() {
     //Je définis la fonction à appeler au déclenchement de l'évènement
     function modifySecondSpan(e) {
         e.preventDefault();
-        $('#second_span').text('Hello World');
+
+        switch ($('#second_span').text()) {
+            case "span2":
+                $('#second_span').text('Hello World');
+                break;
+            default:
+                $('#second_span').text('span2');
+                break;
+        }
     }
 
     //J'appelle la fonction au déclenchement de l'évènement
